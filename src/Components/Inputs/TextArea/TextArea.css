@@ -1,0 +1,10 @@
+textarea {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    resize: none;
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+}

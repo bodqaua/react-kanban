@@ -24,6 +24,7 @@ const NewTaskModal = ({taskStore, data, toggle}: props) => {
             creationDate: new Date(),
             alias: alias,
             colId: data.columnId,
+            position: taskStore.getLastPosition(data.columnId) + 1
         }
         taskStore.newTask(task);
         toggle(false);

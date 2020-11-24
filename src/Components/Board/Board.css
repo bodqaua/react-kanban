@@ -1,5 +1,5 @@
 .board {
-    background: #03A9F4;
+    background: #4C9AFF;
     height: 100vh;
     display: flex;
     justify-content: flex-start;
@@ -11,7 +11,7 @@
     width: 100%;
     min-width: 250px;
     max-width: 250px;
-    background: #B0BEC5;
+    background: #EBECF0;
     padding: 12px;
     margin-top: 12px;
     -webkit-border-radius: 4px;
@@ -31,8 +31,8 @@
 }
 
 .new-column > p:hover {
-    background: #222222;
-    color: #FFFFFF;
+    background: rgb(227, 252, 239);
+    color: rgba(9, 30, 66, 0.71);
 }
 
 .new-column > p > i {

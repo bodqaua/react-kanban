@@ -2,17 +2,19 @@ import React from "react";
 import {inject, observer} from "mobx-react";
 import {withRouter} from "react-router";
 import moment from "moment";
-import { useHistory } from "react-router-dom";
 
 type props = {
     match?: any;
     taskStore?: any;
     columnStore?: any;
+    boardStore?: any;
     history: any;
 }
 
-const ViewTaskAlias = ({match, taskStore, columnStore, history}: props) => {
-    const task = taskStore.getTaskByProperty(match.params.id, 'alias');
+const ViewTaskAlias = ({match, taskStore, columnStore, boardStore, history}: props) => {
+    const board = boardStore.getByAlias(match.params.colId);
+    taskStore.setKey(board.id);
+    const task = taskStore.getTaskByProperty(match.params.taskId, 'alias');
     if (!task) {
         history.push('/');
         return null;
@@ -39,7 +41,7 @@ const ViewTaskAlias = ({match, taskStore, columnStore, history}: props) => {
             </div>
             <div className="modal-body">
                 <div className={"d-flex sb"}>
-                    <span>Column: <b>{column.title}</b></span>
+                    {column && <span>Column: <b>{column.title}</b></span>}
                     <span>Alias: <b>{task.alias}</b></span>
                 </div>
                 <div>
@@ -49,14 +51,16 @@ const ViewTaskAlias = ({match, taskStore, columnStore, history}: props) => {
                 </div>
                 <div className={"view-task-dates"}>
                     <p>Creation date: <span className="text-danger">{format(task.creationDate)}</span></p>
-                    <p>Last updated: <span className="text-danger">{task.updateDate ? task.updateDate : 'Never changed'}</span></p>
+                    <p>Last updated: <span
+                        className="text-danger">{task.updateDate ? task.updateDate : 'Never changed'}</span></p>
                 </div>
             </div>
-            </>
+        </>
     )
 }
 
 export default inject((stores: any) => ({
     taskStore: stores.tasksStore,
-    columnStore: stores.columnsStore
+    columnStore: stores.columnsStore,
+    boardStore: stores.boardStore,
 }))(observer(withRouter(ViewTaskAlias)));

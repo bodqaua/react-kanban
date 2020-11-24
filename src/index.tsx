@@ -7,10 +7,12 @@ import {Provider} from 'mobx-react';
 import columnStore from "./store/ColumnStore";
 import tasksStore from './store/TasksStore';
 import modalStore from './store/ModalStore';
+import boardStore from './store/BoardStore';
 
 ReactDOM.render(
     <Provider columnsStore={columnStore}
               tasksStore={tasksStore}
+              boardStore={boardStore}
               modalStore={modalStore}>
         <React.StrictMode>
             <App/>

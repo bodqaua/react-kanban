@@ -19,7 +19,7 @@ const Task = ({taskStore, modalStore, taskId}: TaskProps) => {
     }
 
     const showTask = () => {
-        history.push('/' + task.alias);
+        history.push(`${history.location.pathname}/${task.alias}`);
     }
 
     const editTask = () => {

@@ -2,7 +2,8 @@ import React from 'react';
 import Board from "./Components/Board/Board";
 import ModalContainer from "./Components/Modals/ModalContainer";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import ViewTaskAlias from "./Components/ViewTaskAlias/ViewTaskAlias";
+import BoardWrapper from "./Components/BoardWrapper/BoardWrapper";
+import './App.css';
 
 function App() {
     return (
@@ -10,10 +11,10 @@ function App() {
             <Router>
                 <Switch>
                     <Route path={"/:id"}>
-                        <ViewTaskAlias/>
+                        <Board/>
                     </Route>
                     <Route path="/">
-                        <Board/>
+                        <BoardWrapper/>
                     </Route>
                 </Switch>
             </Router>

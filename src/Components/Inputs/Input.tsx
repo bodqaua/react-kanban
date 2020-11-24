@@ -4,10 +4,11 @@ type props = {
     value?: string | number;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     type?: string;
-    enterDown?: (bool: boolean) => void
+    enterDown?: (bool: boolean) => void;
+    placeholder?: string
 }
 
-export const Input = ({value, onChange, type, enterDown}: props) => {
+export const Input = ({value, onChange, type, enterDown, placeholder}: props) => {
     const checkKey = (event: any) => {
         if (event.code === "Enter" && enterDown) {
             enterDown(true);
@@ -15,6 +16,7 @@ export const Input = ({value, onChange, type, enterDown}: props) => {
     }
     return(
         <input
+            placeholder={placeholder}
             type={type || 'text'}
             value={value}
             onKeyUp={(event) => checkKey(event)}

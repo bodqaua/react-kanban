@@ -1,10 +1,11 @@
-import {action, makeAutoObservable, observable} from 'mobx';
+import {action, makeAutoObservable, observable, computed} from 'mobx';
 import {getLocalStorage, setLocalStorage} from "../Services/localstorage";
 import {ColumnModel} from "../Models/Column.model";
 import taskStore from './TasksStore';
 
 class ColumnStore {
-    localstorageKey = 'columns';
+    localstoragePrefix = 'columns';
+    localstorageKey = '';
     columns = this.initialLoad();
 
     constructor() {
@@ -13,6 +14,11 @@ class ColumnStore {
             loadColumns: action,
             getColumnById: action
         });
+    }
+
+    setKey(key: string): void {
+        this.localstorageKey = `${this.localstoragePrefix}-${key}`;
+        this.columns = this.initialLoad();
     }
 
     newColumn(column: ColumnModel): void {
@@ -28,7 +34,15 @@ class ColumnStore {
     }
 
     initialLoad(): ColumnModel[] {
-        return getLocalStorage(this.localstorageKey);
+        if (!this.localstorageKey) {
+            return [];
+        }
+        const columns = getLocalStorage(this.localstorageKey);
+        if (!columns) {
+            setLocalStorage(this.localstorageKey, []);
+            return [];
+        }
+        return columns;
     }
 
     loadColumns(): void {

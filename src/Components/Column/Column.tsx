@@ -5,6 +5,7 @@ import Task from "../Task/Task";
 import {TaskModel} from "../../Models/Tasks.model";
 import {ColumnModel} from "../../Models/Column.model";
 import {Input} from "../Inputs/Input";
+import {Draggable} from "react-beautiful-dnd";
 
 type ColumnProps = {
     taskStore?: any,
@@ -16,7 +17,6 @@ type ColumnProps = {
 const Column = ({taskStore, columnStore, modalStore, columnId}: ColumnProps) => {
     const tasks: TaskModel[] = taskStore.getTasksByColumn(columnId);
     const column: ColumnModel = columnStore.getColumnById(columnId);
-
     const [columnName, setColumnName] = useState(column.title);
     const [editing, setEditing] = useState(false);
 
@@ -58,8 +58,20 @@ const Column = ({taskStore, columnStore, modalStore, columnId}: ColumnProps) => 
                         </div>
                     </div>
                     <div className="tasks-wrapper">
-                        {tasks.map((task: TaskModel) => (
-                            <Task key={task.id} taskId={task.id}/>
+                        {tasks.map((task: TaskModel, index: number) => (
+                            <Draggable
+                                key={task.id}
+                                draggableId={task.id}
+                                index={index}>
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}>
+                                        <Task taskId={task.id}/>
+                                    </div>)}
+
+                            </Draggable>
                         ))}
                     </div>
                 </div>

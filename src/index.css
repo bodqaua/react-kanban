@@ -49,3 +49,45 @@ button.btn-secondary {
 button.btn-secondary:hover {
   background: #424242;
 }
+
+input {
+    width: 100%;
+    padding: 8px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+}
+
+.text-secondary {
+    color: #6c757d;
+}
+
+.ViewTaskModal {
+    width: 100%;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.sb {
+    justify-content: space-between;
+}
+.description {
+    margin: 12px 0;
+    font-size: 18px;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.view-task-dates > p {
+    text-align: right;
+}
+
+.deleteTask {
+    margin-left: 24px;
+    cursor: pointer;
+}

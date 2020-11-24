@@ -1,4 +1,5 @@
 .task {
+    position: relative;
     background: #FFFFFF;
     padding: 12px;
     border-radius: 4px;
@@ -23,5 +24,13 @@
 }
 
 .task-actions {
-    
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.task-actions > i {
+    padding: 8px 4px;
+    margin: 0 2px;
+    cursor: pointer;
 }

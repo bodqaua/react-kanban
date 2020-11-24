@@ -1,44 +1,75 @@
 import React, {useState} from "react";
-import {ColumnModel} from "../../Models/Column.model";
 import './Column.css';
-import {Task} from "../Task/Task";
+import {inject, observer} from "mobx-react";
+import Task from "../Task/Task";
 import {TaskModel} from "../../Models/Tasks.model";
-import {useLocalStorage} from "../../Hooks/LocalStorage";
-import {EditTaskModal} from "../EditTaskModal/EditTaskModal";
+import {ColumnModel} from "../../Models/Column.model";
+import {Input} from "../Inputs/Input";
 
 type ColumnProps = {
-    column: ColumnModel
+    taskStore?: any,
+    columnStore?: any,
+    modalStore?: any,
+    columnId: string
 }
 
-export const Column = ({column}: ColumnProps) => {
-    const [tasks]: any = useLocalStorage("tasks", []);
-    const [task, setTask]: any = useState({});
-    const [isOpen, toggleOpen] = useState(false);
+const Column = ({taskStore, columnStore, modalStore, columnId}: ColumnProps) => {
+    const tasks: TaskModel[] = taskStore.getTasksByColumn(columnId);
+    const column: ColumnModel = columnStore.getColumnById(columnId);
 
-    console.log(tasks);
+    const [columnName, setColumnName] = useState(column.title);
+    const [editing, setEditing] = useState(false);
 
-    const filterTasks = (tasks: TaskModel[], colId: number): TaskModel[] => {
-        return tasks.filter((task: TaskModel) => task.colId === colId);
+    const openNewTask = () => {
+        modalStore.toggleModal('NewTaskModal', true, {columnId});
     }
-    const taskForMap = filterTasks(tasks, column.id);
 
-    const openTask = (task: TaskModel) => {
-        setTask(task);
-        toggleOpen(true);
+    const deleteColumn = () => {
+        columnStore.deleteColumn(columnId);
     }
+
+    const changeColumnName = () => {
+        const clone = {...column};
+        clone.title = columnName;
+        columnStore.updateColumn(clone);
+        setEditing(false);
+    }
+
     return (
         <>
             <div className={"column-wrapper"}>
                 <div className="column-body">
-                    <div className="column-title">{column.title}</div>
+                    <div className="column-title">
+                        {editing && <Input value={columnName}
+                                           onChange={(event) => setColumnName(event.target.value)}
+                                           enterDown={changeColumnName}
+
+                        />}
+                        {!editing && <span onDoubleClickCapture={() => setEditing(true)}>{column.title}</span>}
+                        <div className="add-new-task">
+                            <i className="fa fa-trash"
+                               aria-hidden="true"
+                               onClick={() => deleteColumn()}
+                            />
+                            <i className="fa fa-plus"
+                               aria-hidden="true"
+                               onClick={() => openNewTask()}
+                            />
+                        </div>
+                    </div>
                     <div className="tasks-wrapper">
-                        {taskForMap.map((task: TaskModel) => (
-                            <Task key={task.id} task={task} handleClick={openTask}/>
+                        {tasks.map((task: TaskModel) => (
+                            <Task key={task.id} taskId={task.id}/>
                         ))}
                     </div>
                 </div>
             </div>
-            <EditTaskModal task={task} isOpen={isOpen} toggle={(boolean) => toggleOpen(boolean)}/>
         </>
     );
 }
+
+export default inject((stores: any) => ({
+    taskStore: stores.tasksStore,
+    columnStore: stores.columnsStore,
+    modalStore: stores.modalStore
+}))(observer(Column));

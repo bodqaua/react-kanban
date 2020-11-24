@@ -1,0 +1,55 @@
+import {action, makeAutoObservable, observable} from 'mobx';
+import {getLocalStorage, setLocalStorage} from "../Services/localstorage";
+import {ColumnModel} from "../Models/Column.model";
+import taskStore from './TasksStore';
+
+class ColumnStore {
+    localstorageKey = 'columns';
+    columns = this.initialLoad();
+
+    constructor() {
+        makeAutoObservable(this, {
+            columns: observable,
+            loadColumns: action,
+            getColumnById: action
+        });
+    }
+
+    newColumn(column: ColumnModel): void {
+        this.columns.push(column);
+        this.updateLocalStorage();
+    }
+
+    deleteColumn(columnId: string): void {
+        const index = this.columns.findIndex((column: ColumnModel) => column.id === columnId);
+        this.columns.splice(index, 1);
+        taskStore.deleteByColumn(columnId);
+        this.updateLocalStorage();
+    }
+
+    initialLoad(): ColumnModel[] {
+        return getLocalStorage(this.localstorageKey);
+    }
+
+    loadColumns(): void {
+        this.columns = getLocalStorage(this.localstorageKey);
+    }
+
+    getColumnById(columnId: string): ColumnModel | undefined {
+        return this.columns.find((column: ColumnModel) => column.id === columnId);
+    }
+
+    updateColumn(column: ColumnModel, id?: string): void {
+        id = id ? id : column.id;
+        const index = this.columns.findIndex((column: ColumnModel) => column.id === id);
+        this.columns[index] = column;
+        this.updateLocalStorage();
+    }
+
+    updateLocalStorage() {
+        setLocalStorage(this.localstorageKey, this.columns);
+    }
+}
+
+const store = new ColumnStore();
+export default store;

@@ -1,5 +1,12 @@
+import {nanoid} from "nanoid";
+
 export interface ColumnModel {
-    id: number;
+    id: string;
     title: string;
     position?: number;
 }
+
+export const initialColumn = {
+    id: nanoid(),
+    title: 'Test column'
+};

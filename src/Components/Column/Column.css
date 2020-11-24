@@ -16,4 +16,16 @@
 
 .column-title {
     color: #263238;
+    position: relative;
+}
+
+.add-new-task {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.add-new-task > i {
+    margin-left: 8px;
+    cursor: pointer;
 }

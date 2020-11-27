@@ -1,4 +1,4 @@
-import {action, makeAutoObservable, observable, computed} from 'mobx';
+import {action, makeAutoObservable, observable} from 'mobx';
 import {getLocalStorage, setLocalStorage} from "../Services/localstorage";
 import {ColumnModel} from "../Models/Column.model";
 import taskStore from './TasksStore';

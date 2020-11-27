@@ -6,6 +6,7 @@ class ModalStore {
         {modalName: 'EditTaskModal', data: {}, isOpen: false},
         {modalName: 'NewTaskModal', data: {}, isOpen: false},
         {modalName: 'ViewTaskModal', data: {}, isOpen: false},
+        {modalName: 'EditBoardModal', data: {}, isOpen: false},
     ]
     constructor() {
         makeAutoObservable(this, {

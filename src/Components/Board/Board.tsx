@@ -7,9 +7,8 @@ import {Input} from "../Inputs/Input";
 import {nanoid} from "nanoid";
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 import {TaskModel} from "../../Models/Tasks.model";
-import {BrowserRouter as Router, Route, Switch, useParams} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, useHistory, useParams} from 'react-router-dom';
 import ViewTaskAlias from "../ViewTaskAlias/ViewTaskAlias";
-import {useHistory} from 'react-router-dom';
 
 type props = {
     columnStore?: any;
@@ -18,7 +17,7 @@ type props = {
 }
 
 const Board = ({columnStore, taskStore, boardStore}: props) => {
-    const params: {id: any} = useParams();
+    const params: { id: any } = useParams();
     const board = boardStore.getByAlias(params.id);
     const history = useHistory()
     if (!boardStore.checkIsExists(params.id)) {
@@ -65,7 +64,7 @@ const Board = ({columnStore, taskStore, boardStore}: props) => {
             <Router>
                 <Switch>
                     <Route path="/:colId/:taskId">
-                        <ViewTaskAlias />
+                        <ViewTaskAlias/>
                     </Route>
                     <Route path="">
                         <DragDropContext onDragEnd={onDragEnd}>

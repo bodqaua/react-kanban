@@ -1,8 +1,6 @@
 import {action, makeAutoObservable, observable} from "mobx";
 import {getLocalStorage, setLocalStorage} from "../Services/localstorage";
-import {initialTask, TaskModel} from "../Models/Tasks.model";
-import {nanoid} from "nanoid";
-import Task from "../Components/Task/Task";
+import {TaskModel} from "../Models/Tasks.model";
 
 class TasksStore {
     localStoragePrefix = 'tasks';
@@ -89,13 +87,17 @@ class TasksStore {
 
     removeWithColId(colId: string): void {
         const ids = this.getTasksByColumn(colId).map((task: TaskModel) => task.id);
-        ids.forEach((id) => {this.deleteTask(id, false)});
+        ids.forEach((id) => {
+            this.deleteTask(id, false)
+        });
         this.updateLocalStorage();
     }
 
     resetIndexes(data: any[]): any[] {
         data = [...data];
-        data.forEach((item, index) => {item.position = index +1});
+        data.forEach((item, index) => {
+            item.position = index + 1
+        });
         return data;
     }
 
@@ -105,10 +107,6 @@ class TasksStore {
         if (isUpdate) {
             this.updateLocalStorage();
         }
-    }
-
-    parse(data: any) {
-        console.log(JSON.parse(JSON.stringify(data)));
     }
 
     updateTask(task: TaskModel, id: string): void {
